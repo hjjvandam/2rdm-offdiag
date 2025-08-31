@@ -1,4 +1,4 @@
-../../src/2rdm-offdiag.py h2-00.74.xyz "cc-pvdz" h2-cc-pvdz
+../../src/2rdm-offdiag.py --overwrite True h2-00.74.xyz "cc-pvdz" h2-cc-pvdz
 ../../src/2rdm-offdiag.py h2-01.00.xyz "cc-pvdz" h2-cc-pvdz
 ../../src/2rdm-offdiag.py h2-01.50.xyz "cc-pvdz" h2-cc-pvdz
 ../../src/2rdm-offdiag.py h2-02.00.xyz "cc-pvdz" h2-cc-pvdz

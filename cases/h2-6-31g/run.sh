@@ -1,4 +1,4 @@
-../../src/2rdm-offdiag.py h2-00.74.xyz "6-31g" h2-6-31g
+../../src/2rdm-offdiag.py --overwrite True h2-00.74.xyz "6-31g" h2-6-31g
 ../../src/2rdm-offdiag.py h2-01.00.xyz "6-31g" h2-6-31g
 ../../src/2rdm-offdiag.py h2-01.50.xyz "6-31g" h2-6-31g
 ../../src/2rdm-offdiag.py h2-02.00.xyz "6-31g" h2-6-31g

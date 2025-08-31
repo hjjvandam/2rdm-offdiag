@@ -67,7 +67,7 @@ def calc_rdms(fci_wf,C_fci,mol):
     rdm2_bb = rdm2_bb.transpose(0,2,1,3)
     return (rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb)
 
-def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
+def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     """
     Extract density matrix elements
 
@@ -77,7 +77,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     norb = mol.nao
     nelec = mol.nelec
     filename = f"{name}_aa_d.dat"
-    with open(filename,"a") as fp:
+    with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a1 = rdm1_a[ii,ii]
@@ -85,7 +85,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 diag   = rdm2_aa[ii,jj,ii,jj]
                 fp.write(f"{occ_a1} {occ_a2} {diag}\n")
     filename = f"{name}_aa_o.dat"
-    with open(filename,"a") as fp:
+    with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a1 = rdm1_a[ii,ii]
@@ -93,7 +93,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 odiag  = rdm2_aa[ii,ii,jj,jj]
                 fp.write(f"{occ_a1} {occ_a2} {odiag}\n")
     filename = f"{name}_ab_d.dat"
-    with open(filename,"a") as fp:
+    with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a = rdm1_a[ii,ii]
@@ -101,7 +101,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 diag  = rdm2_ab[ii,jj,ii,jj]
                 fp.write(f"{occ_a} {occ_b} {diag}\n")
     filename = f"{name}_ab_o.dat"
-    with open(filename,"a") as fp:
+    with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a = rdm1_a[ii,ii]
@@ -109,7 +109,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 odiag = rdm2_ab[ii,ii,jj,jj]
                 fp.write(f"{occ_a} {occ_b} {odiag}\n")
     filename = f"{name}_bb_d.dat"
-    with open(filename,"a") as fp:
+    with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_b1 = rdm1_b[ii,ii]
@@ -117,7 +117,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 diag   = rdm2_bb[ii,jj,ii,jj]
                 fp.write(f"{occ_b1} {occ_b2} {diag}\n")
     filename = f"{name}_bb_o.dat"
-    with open(filename,"a") as fp:
+    with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_b1 = rdm1_b[ii,ii]
@@ -125,14 +125,14 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 odiag  = rdm2_bb[ii,ii,jj,jj]
                 fp.write(f"{occ_b1} {occ_b2} {odiag}\n")
 
-def do_all(xyz_file,prefix_out,basis_set,nopen,charge):
+def do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode):
     """
     Do the whole thing
     """
     mol = get_molecule(xyz_file,basis_set,nopen,charge)
     (fci_wf,C_fci) = calc_wfn(mol)
     (rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb) = calc_rdms(fci_wf,C_fci,mol)
-    extract_elements(prefix_out,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol)
+    extract_elements(prefix_out,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol)
 
 def commandline_args():
     parser = argparse.ArgumentParser(
@@ -144,6 +144,7 @@ def commandline_args():
     parser.add_argument("output_prefix",help="the prefix for the output files")
     parser.add_argument("-m","--mult",help="spin multiplicity",type=int,default=1)
     parser.add_argument("-c","--charge",help="molecular charge",type=int,default=0)
+    parser.add_argument("--overwrite",help="overwrite the data files",type=bool,default=False)
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -154,8 +155,10 @@ if __name__ == "__main__":
     mult = args.mult
     nopen = mult-1
     charge = args.charge
+    mode = "a"
+    if args.overwrite:
+        mode = "w"
     if nopen < 0:
         print(f"Number of unpaired electron is: {nopen}?")
         exit()
-    outfile = "junk"
-    do_all(xyz_file,prefix_out,basis_set,nopen,charge)
+    do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode)
