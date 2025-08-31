@@ -77,7 +77,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     norb = mol.nao
     nelec = mol.nelec
     filename = f"{name}_aa_d.dat"
-    with open(filename,"w") as fp:
+    with open(filename,"a") as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a1 = rdm1_a[ii,ii]
@@ -85,7 +85,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 diag   = rdm2_aa[ii,jj,ii,jj]
                 fp.write(f"{occ_a1} {occ_a2} {diag}\n")
     filename = f"{name}_aa_o.dat"
-    with open(filename,"w") as fp:
+    with open(filename,"a") as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a1 = rdm1_a[ii,ii]
@@ -93,7 +93,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 odiag  = rdm2_aa[ii,ii,jj,jj]
                 fp.write(f"{occ_a1} {occ_a2} {odiag}\n")
     filename = f"{name}_ab_d.dat"
-    with open(filename,"w") as fp:
+    with open(filename,"a") as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a = rdm1_a[ii,ii]
@@ -101,7 +101,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 diag  = rdm2_ab[ii,jj,ii,jj]
                 fp.write(f"{occ_a} {occ_b} {diag}\n")
     filename = f"{name}_ab_o.dat"
-    with open(filename,"w") as fp:
+    with open(filename,"a") as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_a = rdm1_a[ii,ii]
@@ -109,7 +109,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 odiag = rdm2_ab[ii,ii,jj,jj]
                 fp.write(f"{occ_a} {occ_b} {odiag}\n")
     filename = f"{name}_bb_d.dat"
-    with open(filename,"w") as fp:
+    with open(filename,"a") as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_b1 = rdm1_b[ii,ii]
@@ -117,7 +117,7 @@ def extract_elements(name,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 diag   = rdm2_bb[ii,jj,ii,jj]
                 fp.write(f"{occ_b1} {occ_b2} {diag}\n")
     filename = f"{name}_bb_o.dat"
-    with open(filename,"w") as fp:
+    with open(filename,"a") as fp:
         for ii in range(norb):
             for jj in range(norb):
                 occ_b1 = rdm1_b[ii,ii]
