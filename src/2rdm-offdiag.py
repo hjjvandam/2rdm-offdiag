@@ -76,6 +76,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     """
     norb = mol.nao
     nelec = mol.nelec
+    (nel_a, nel_b) = nelec
     filename = f"{name}_aa_d.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -83,7 +84,15 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 occ_a1 = rdm1_a[ii,ii]
                 occ_a2 = rdm1_a[jj,jj]
                 diag   = rdm2_aa[ii,jj,ii,jj]
-                fp.write(f"{occ_a1} {occ_a2} {diag}\n")
+                if ii < norb - nel_a:
+                    typi = "virt"
+                else:
+                    typi = "occ."
+                if jj < norb - nel_a:
+                    typj = "virt"
+                else:
+                    typj = "occ."
+                fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_aa_o.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -92,7 +101,15 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     occ_a1 = rdm1_a[ii,ii]
                     occ_a2 = rdm1_a[jj,jj]
                     odiag  = rdm2_aa[ii,ii,jj,jj]
-                    fp.write(f"{occ_a1} {occ_a2} {odiag}\n")
+                    if ii < norb - nel_a:
+                        typi = "virt"
+                    else:
+                        typi = "occ."
+                    if jj < norb - nel_a:
+                        typj = "virt"
+                    else:
+                        typj = "occ."
+                    fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_ab_d.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -100,7 +117,15 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 occ_a = rdm1_a[ii,ii]
                 occ_b = rdm1_b[jj,jj]
                 diag  = rdm2_ab[ii,jj,ii,jj]
-                fp.write(f"{occ_a} {occ_b} {diag}\n")
+                if ii < norb - nel_a:
+                    typi = "virt"
+                else:
+                    typi = "occ."
+                if jj < norb - nel_b:
+                    typj = "virt"
+                else:
+                    typj = "occ."
+                fp.write(f"{occ_a:.16f} {occ_b:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_ab_o.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -109,7 +134,15 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     occ_a = rdm1_a[ii,ii]
                     occ_b = rdm1_b[jj,jj]
                     odiag = rdm2_ab[ii,ii,jj,jj]
-                    fp.write(f"{occ_a} {occ_b} {odiag}\n")
+                    if ii < norb - nel_a:
+                        typi = "virt"
+                    else:
+                        typi = "occ."
+                    if jj < norb - nel_b:
+                        typj = "virt"
+                    else:
+                        typj = "occ."
+                    fp.write(f"{occ_a:.16f} {occ_b:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_bb_d.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -117,7 +150,15 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 occ_b1 = rdm1_b[ii,ii]
                 occ_b2 = rdm1_b[jj,jj]
                 diag   = rdm2_bb[ii,jj,ii,jj]
-                fp.write(f"{occ_b1} {occ_b2} {diag}\n")
+                if ii < norb - nel_b:
+                    typi = "virt"
+                else:
+                    typi = "occ."
+                if jj < norb - nel_b:
+                    typj = "virt"
+                else:
+                    typj = "occ."
+                fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_bb_o.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -126,7 +167,15 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     occ_b1 = rdm1_b[ii,ii]
                     occ_b2 = rdm1_b[jj,jj]
                     odiag  = rdm2_bb[ii,ii,jj,jj]
-                    fp.write(f"{occ_b1} {occ_b2} {odiag}\n")
+                    if ii < norb - nel_b:
+                        typi = "virt"
+                    else:
+                        typi = "occ."
+                    if jj < norb - nel_b:
+                        typj = "virt"
+                    else:
+                        typj = "occ."
+                    fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
 
 def do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode):
     """
