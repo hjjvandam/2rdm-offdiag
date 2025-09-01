@@ -88,10 +88,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
-                occ_a1 = rdm1_a[ii,ii]
-                occ_a2 = rdm1_a[jj,jj]
-                odiag  = rdm2_aa[ii,ii,jj,jj]
-                fp.write(f"{occ_a1} {occ_a2} {odiag}\n")
+                if not (ii == jj):
+                    occ_a1 = rdm1_a[ii,ii]
+                    occ_a2 = rdm1_a[jj,jj]
+                    odiag  = rdm2_aa[ii,ii,jj,jj]
+                    fp.write(f"{occ_a1} {occ_a2} {odiag}\n")
     filename = f"{name}_ab_d.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -104,10 +105,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
-                occ_a = rdm1_a[ii,ii]
-                occ_b = rdm1_b[jj,jj]
-                odiag = rdm2_ab[ii,ii,jj,jj]
-                fp.write(f"{occ_a} {occ_b} {odiag}\n")
+                if not (ii == jj):
+                    occ_a = rdm1_a[ii,ii]
+                    occ_b = rdm1_b[jj,jj]
+                    odiag = rdm2_ab[ii,ii,jj,jj]
+                    fp.write(f"{occ_a} {occ_b} {odiag}\n")
     filename = f"{name}_bb_d.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -120,10 +122,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
-                occ_b1 = rdm1_b[ii,ii]
-                occ_b2 = rdm1_b[jj,jj]
-                odiag  = rdm2_bb[ii,ii,jj,jj]
-                fp.write(f"{occ_b1} {occ_b2} {odiag}\n")
+                if not (ii == jj):
+                    occ_b1 = rdm1_b[ii,ii]
+                    occ_b2 = rdm1_b[jj,jj]
+                    odiag  = rdm2_bb[ii,ii,jj,jj]
+                    fp.write(f"{occ_b1} {occ_b2} {odiag}\n")
 
 def do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode):
     """
