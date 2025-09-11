@@ -10,6 +10,7 @@ Command line arguments:
 - spin multiplicity (default 1)
 """
 import argparse
+import math
 import numpy as np
 from pyscf import gto, scf, fci, ao2mo
 
@@ -77,7 +78,19 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
     norb = mol.nao
     nelec = mol.nelec
     (nel_a, nel_b) = nelec
-    filename = f"{name}_aa_d.dat"
+    if nel_a < 2:
+        nterms_aa = 0
+    else:
+        nterms_aa = math.comb(norb-2,nel_a-2)*math.comb(norb,nel_b)
+    if nel_a < 1 or nel_b < 1:
+        nterms_ab = 0
+    else:
+        nterms_ab = math.comb(norb-1,nel_a-1)*math.comb(norb-1,nel_b-1)
+    if nel_b < 2:
+        nterms_bb = 0
+    else:
+        nterms_bb = math.comb(norb,nel_a)*math.comb(norb-2,nel_b-2)
+    filename = f"{name}_aa_d_{nterms_aa}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -93,7 +106,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 else:
                     typj = "occ."
                 fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
-    filename = f"{name}_aa_o.dat"
+    filename = f"{name}_aa_o_{nterms_aa}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -110,7 +123,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     else:
                         typj = "occ."
                     fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
-    filename = f"{name}_ab_d.dat"
+    filename = f"{name}_ab_d_{nterms_ab}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -126,7 +139,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 else:
                     typj = "occ."
                 fp.write(f"{occ_a:.16f} {occ_b:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
-    filename = f"{name}_ab_o.dat"
+    filename = f"{name}_ab_o_{nterms_ab}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -143,7 +156,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     else:
                         typj = "occ."
                     fp.write(f"{occ_a:.16f} {occ_b:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
-    filename = f"{name}_bb_d.dat"
+    filename = f"{name}_bb_d_{nterms_bb}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -159,7 +172,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 else:
                     typj = "occ."
                 fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
-    filename = f"{name}_bb_o.dat"
+    filename = f"{name}_bb_o_{nterms_bb}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
