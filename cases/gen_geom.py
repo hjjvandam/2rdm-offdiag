@@ -30,23 +30,19 @@ def generate_structure(natoms,rmax):
     """
     Generate a structure with natoms atoms by random walk
     """
-    positions = [(0.0,0.0,0.0)]
-    rr = [0.0]
-    for iatom in range(1,natoms):
-        while True:
-            # We need to get larger r's with a higher likelihood
-            # to get a constant probability distribution throughout
-            # the volume of a sphere.
-            r = random.uniform(0.0,rmax)
-            chance = 1.0/(1.0+r**3)
-            if random.random() > chance:
-                break
+    positions = []
+    rr = []
+    for iatom in range(natoms):
+        r = math.cbrt(random.random())*rmax
         t = random.uniform(0.0,math.pi)
         a = random.uniform(0.0,math.pi*2.0)
         x = r*math.sin(t)*math.cos(a)
         y = r*math.sin(t)*math.sin(a)
         z = r*math.cos(t)
-        if r > rr[-1]:
+        if len(rr) == 0:
+            rr.append(r)
+            positions.append((x,y,z))
+        elif r > rr[-1]:
             rr.append(r)
             positions.append((x,y,z))
         else:
@@ -86,6 +82,7 @@ def avg_density(tab_in):
             avg_dens[ii] += row[ii]
     for ii in range(size_table):
         avg_dens[ii] *= 1.0/num_rows
+    return avg_dens
 
 def write_geometries(name,rmax,number,positions,inc):
     """
@@ -148,7 +145,6 @@ def generate_structures_with_rmax(rmax,number,natoms):
 inc = 2
 rmax = 3.0
 number = 1000 # molecular structures
-number = 10
 natoms = 8
 (structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
 print(avg_dens)
