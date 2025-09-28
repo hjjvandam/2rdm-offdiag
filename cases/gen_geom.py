@@ -99,7 +99,7 @@ def write_geometries(name,rmax,number,positions,inc):
     dir_names = []
     ii = inc
     while ii <= natoms:
-        dir_name = f"{name}{ii}_{rmax}"
+        dir_name = f"{name}{ii}_{str(rmax)}"
         dir_names.append(dir_name)
         if not os.path.exists(dir_name):
             pathlib.Path(dir_name).mkdir(exist_ok=True)
@@ -117,7 +117,7 @@ def write_geometries(name,rmax,number,positions,inc):
                 fp.write(f"{ii}\n\n")
                 for iat in range(ii):
                     (xx,yy,zz) = pos[iat]
-                    fp.write(f"h {xx:14.6f} {yy:14.6f} {zz:14.6f}\n")
+                    fp.write(f"h {rmax*xx:14.6f} {rmax*yy:14.6f} {rmax*zz:14.6f}\n")
             ii += inc
 
 def generate_structures_with_rmax(rmax,number,natoms):
@@ -146,16 +146,16 @@ inc = 2
 rmax = 3.0
 number = 1000 # molecular structures
 natoms = 8
-(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
+(structs,rows,avg_dens) = generate_structures_with_rmax(1.0,number,natoms)
 print(avg_dens)
-write_geometries("h",str(rmax),number,structs,inc)
+write_geometries("h",rmax,number,structs,inc)
 #
-rmax = 5.0
-(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
+rmax = 6.0
+#(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
 print(avg_dens)
-write_geometries("h",str(rmax),number,structs,inc)
+write_geometries("h",rmax,number,structs,inc)
 #
-rmax = 7.0
-(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
+rmax = 12.0
+#(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
 print(avg_dens)
-write_geometries("h",str(rmax),number,structs,inc)
+write_geometries("h",rmax,number,structs,inc)
