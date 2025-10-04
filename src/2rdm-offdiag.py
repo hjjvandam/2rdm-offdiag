@@ -33,7 +33,7 @@ def calc_wfn(mol):
     """
     Calculate the Full-CI wavefunction in natural orbital basis
     """
-    uhf_wf = scf.UHF(mol).run()
+    uhf_wf = scf.UHF(mol).run(max_cycle=200)
     fci_wf = fci.FCI(uhf_wf)
     norb = mol.nao
     nelec = mol.nelec
@@ -100,11 +100,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 if ii < norb - nel_a:
                     typi = "virt"
                 else:
-                    typi = "occ."
+                    typi = "occu"
                 if jj < norb - nel_a:
                     typj = "virt"
                 else:
-                    typj = "occ."
+                    typj = "occu"
                 fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_aa_o_{nterms_aa}.dat"
     with open(filename,mode) as fp:
@@ -117,11 +117,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     if ii < norb - nel_a:
                         typi = "virt"
                     else:
-                        typi = "occ."
+                        typi = "occu"
                     if jj < norb - nel_a:
                         typj = "virt"
                     else:
-                        typj = "occ."
+                        typj = "occu"
                     fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_ab_d_{nterms_ab}.dat"
     with open(filename,mode) as fp:
@@ -133,11 +133,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 if ii < norb - nel_a:
                     typi = "virt"
                 else:
-                    typi = "occ."
+                    typi = "occu"
                 if jj < norb - nel_b:
                     typj = "virt"
                 else:
-                    typj = "occ."
+                    typj = "occu"
                 fp.write(f"{occ_a:.16f} {occ_b:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_ab_o_{nterms_ab}.dat"
     with open(filename,mode) as fp:
@@ -150,11 +150,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     if ii < norb - nel_a:
                         typi = "virt"
                     else:
-                        typi = "occ."
+                        typi = "occu"
                     if jj < norb - nel_b:
                         typj = "virt"
                     else:
-                        typj = "occ."
+                        typj = "occu"
                     fp.write(f"{occ_a:.16f} {occ_b:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_bb_d_{nterms_bb}.dat"
     with open(filename,mode) as fp:
@@ -166,11 +166,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                 if ii < norb - nel_b:
                     typi = "virt"
                 else:
-                    typi = "occ."
+                    typi = "occu"
                 if jj < norb - nel_b:
                     typj = "virt"
                 else:
-                    typj = "occ."
+                    typj = "occu"
                 fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
     filename = f"{name}_bb_o_{nterms_bb}.dat"
     with open(filename,mode) as fp:
@@ -183,11 +183,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     if ii < norb - nel_b:
                         typi = "virt"
                     else:
-                        typi = "occ."
+                        typi = "occu"
                     if jj < norb - nel_b:
                         typj = "virt"
                     else:
-                        typj = "occ."
+                        typj = "occu"
                     fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
 
 def do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode):
