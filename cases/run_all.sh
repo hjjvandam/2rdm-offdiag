@@ -7,5 +7,5 @@ path=`pwd`
 for folder in "${folders[@]}"; do
     echo $folder
     cd $path/$folder
-    . ./run_neutral.sh 2>&1 | tee run_neutral.log
+    . ./run_neutral.sh 2>&1 | /usr/bin/tee run_neutral.log
 done
