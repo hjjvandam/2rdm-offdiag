@@ -20,15 +20,17 @@ sphere. We average the density for a given number of atoms
 across all structures. We do this calculation for increasing
 numbers of atoms and check the results.
 """
+import json
 import math
 import numpy as np
 import os
 import pathlib
 import random
+import sys
 
 def generate_structure(natoms,rmax):
     """
-    Generate a structure with natoms atoms by random walk
+    Generate a structure with natoms atoms by random selection of polar coordinates
     """
     positions = []
     rr = []
@@ -142,20 +144,30 @@ def generate_structures_with_rmax(rmax,number,natoms):
     avg_dens = avg_density(dens)
     return (structs,rows,avg_dens)
 
-inc = 2
-rmax = 3.0
 number = 1000 # molecular structures
 natoms = 8
-(structs,rows,avg_dens) = generate_structures_with_rmax(1.0,number,natoms)
-print(avg_dens)
+if pathlib.Path("./points_inside_unit_sphere.json").is_file():
+    with open("./points_inside_unit_sphere.json","r") as fp:
+        structs = json.load(fp)
+else:
+    (structs,rows,avg_dens) = generate_structures_with_rmax(1.0,number,natoms)
+    print(avg_dens)
+    structs = json.loads(json.dumps(structs))
+    with open("./points_inside_unit_sphere.json","w") as fp:
+        json.dump(structs,fp)
+#sys.exit(10)
+inc = 2
+rmax = 3.0
+write_geometries("h",rmax,number,structs,inc)
+#
+rmax = 4.0
+write_geometries("h",rmax,number,structs,inc)
+#
+rmax = 5.0
 write_geometries("h",rmax,number,structs,inc)
 #
 rmax = 6.0
-#(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
-print(avg_dens)
 write_geometries("h",rmax,number,structs,inc)
 #
 rmax = 12.0
-#(structs,rows,avg_dens) = generate_structures_with_rmax(rmax,number,natoms)
-print(avg_dens)
 write_geometries("h",rmax,number,structs,inc)
