@@ -12,6 +12,7 @@ Command line arguments:
 import argparse
 import math
 import numpy as np
+import os
 from pyscf import gto, scf, fci, ao2mo
 
 def get_molecule(xyz_file,basis_set,nopen,charge):
@@ -68,7 +69,7 @@ def calc_rdms(fci_wf,C_fci,mol):
     rdm2_bb = rdm2_bb.transpose(0,2,1,3)
     return (rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb)
 
-def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
+def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
     """
     Extract density matrix elements
 
@@ -105,7 +106,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     typj = "virt"
                 else:
                     typj = "occu"
-                fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
+                fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
     filename = f"{name}_aa_o_{nterms_aa}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -122,7 +123,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                         typj = "virt"
                     else:
                         typj = "occu"
-                    fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
+                    fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
     filename = f"{name}_ab_d_{nterms_ab}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -138,7 +139,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     typj = "virt"
                 else:
                     typj = "occu"
-                fp.write(f"{occ_a:.16f} {occ_b:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
+                fp.write(f"{occ_a:.16f} {occ_b:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
     filename = f"{name}_ab_o_{nterms_ab}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -155,7 +156,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                         typj = "virt"
                     else:
                         typj = "occu"
-                    fp.write(f"{occ_a:.16f} {occ_b:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
+                    fp.write(f"{occ_a:.16f} {occ_b:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
     filename = f"{name}_bb_d_{nterms_bb}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -171,7 +172,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                     typj = "virt"
                 else:
                     typj = "occu"
-                fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
+                fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
     filename = f"{name}_bb_o_{nterms_bb}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
@@ -188,7 +189,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol):
                         typj = "virt"
                     else:
                         typj = "occu"
-                    fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj}\n")
+                    fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
 
 def do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode):
     """
@@ -197,7 +198,8 @@ def do_all(xyz_file,prefix_out,basis_set,nopen,charge,mode):
     mol = get_molecule(xyz_file,basis_set,nopen,charge)
     (fci_wf,C_fci) = calc_wfn(mol)
     (rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb) = calc_rdms(fci_wf,C_fci,mol)
-    extract_elements(prefix_out,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol)
+    xyz_name = os.path.basename(xyz_file)
+    extract_elements(prefix_out,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyz_name)
 
 def commandline_args():
     parser = argparse.ArgumentParser(
