@@ -13,6 +13,7 @@ import argparse
 import math
 import numpy as np
 import os
+import sys
 from pyscf import gto, scf, fci, ao2mo
 
 def get_molecule(xyz_file,basis_set,nopen,charge):
@@ -34,8 +35,8 @@ def calc_wfn(mol):
     """
     Calculate the Full-CI wavefunction in natural orbital basis
     """
-    uhf_wf = scf.UHF(mol).run(max_cycle=200)
-    fci_wf = fci.FCI(uhf_wf)
+    rhf_wf = scf.RHF(mol).run(max_cycle=200)
+    fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0)
     norb = mol.nao
     nelec = mol.nelec
     (E_fci,C_fci) = fci_wf.kernel()
@@ -43,12 +44,12 @@ def calc_wfn(mol):
     (rdm1_a,rdm1_b) = fci_wf.make_rdm1s(C_fci,norb,nelec)
     #
     (occ,orbs) = np.linalg.eigh(rdm1_a)
-    uhf_wf.mo_coeff[0] = np.matmul(uhf_wf.mo_coeff[0],orbs)
+    rhf_wf.mo_coeff = np.matmul(rhf_wf.mo_coeff,orbs)
     #
-    (occ,orbs) = np.linalg.eigh(rdm1_b)
-    uhf_wf.mo_coeff[1] = np.matmul(uhf_wf.mo_coeff[1],orbs)
+    #(occ,orbs) = np.linalg.eigh(rdm1_b)
+    #uhf_wf.mo_coeff[1] = np.array(uhf_wf.mo_coeff[1])
     #
-    fci_wf = fci.FCI(uhf_wf)
+    fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0)
     (E_fci,C_fci) = fci_wf.kernel()
     print(f"converged FCI energy in nat orbital basis = {E_fci}")
     return (fci_wf,C_fci)
@@ -63,6 +64,10 @@ def calc_rdms(fci_wf,C_fci,mol):
     norb = mol.nao
     nelec = mol.nelec
     ((rdm1_a,rdm1_b),(rdm2_aa,rdm2_ab,rdm2_bb)) = fci_wf.make_rdm12s(C_fci,norb,nelec)
+    #DEBUG
+    #print(rdm1_a)
+    #print(rdm1_b)
+    #DEBUG
     # electron ordering is (1,1) (2,2)
     rdm2_aa = rdm2_aa.transpose(0,2,1,3) # electron ordering now is (1,2) (1,2)
     rdm2_ab = rdm2_ab.transpose(0,2,1,3)
@@ -215,6 +220,7 @@ def commandline_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    np.set_printoptions(threshold=sys.maxsize)
     args = commandline_args()
     xyz_file = args.XYZ_file
     basis_set = args.basis_set
