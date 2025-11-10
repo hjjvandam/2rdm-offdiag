@@ -36,7 +36,7 @@ def calc_wfn(mol):
     Calculate the Full-CI wavefunction in natural orbital basis
     """
     rhf_wf = scf.RHF(mol).run(max_cycle=200)
-    fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0)
+    fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0,ss=0)
     norb = mol.nao
     nelec = mol.nelec
     (E_fci,C_fci) = fci_wf.kernel()
@@ -44,12 +44,23 @@ def calc_wfn(mol):
     (rdm1_a,rdm1_b) = fci_wf.make_rdm1s(C_fci,norb,nelec)
     #
     (occ,orbs) = np.linalg.eigh(rdm1_a)
+    #DEBUG
+    #print(orbs)
+    #DEBUG
+    idx = occ.argsort()[::-1]
+    occ = occ[idx]
+    orbs = orbs[:,idx]
+    #DEBUG
+    #print(idx)
+    #print(occ)
+    #print(orbs)
+    #DEBUG
     rhf_wf.mo_coeff = np.matmul(rhf_wf.mo_coeff,orbs)
     #
     #(occ,orbs) = np.linalg.eigh(rdm1_b)
     #uhf_wf.mo_coeff[1] = np.array(uhf_wf.mo_coeff[1])
     #
-    fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0)
+    fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0,ss=0)
     (E_fci,C_fci) = fci_wf.kernel()
     print(f"converged FCI energy in nat orbital basis = {E_fci}")
     return (fci_wf,C_fci)
@@ -65,6 +76,7 @@ def calc_rdms(fci_wf,C_fci,mol):
     nelec = mol.nelec
     ((rdm1_a,rdm1_b),(rdm2_aa,rdm2_ab,rdm2_bb)) = fci_wf.make_rdm12s(C_fci,norb,nelec)
     #DEBUG
+    #print("HVD: rdms")
     #print(rdm1_a)
     #print(rdm1_b)
     #DEBUG
@@ -103,11 +115,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                 occ_a1 = rdm1_a[ii,ii]
                 occ_a2 = rdm1_a[jj,jj]
                 diag   = rdm2_aa[ii,jj,ii,jj]
-                if ii < norb - nel_a:
+                if ii > nel_a:
                     typi = "virt"
                 else:
                     typi = "occu"
-                if jj < norb - nel_a:
+                if jj > nel_a:
                     typj = "virt"
                 else:
                     typj = "occu"
@@ -120,11 +132,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                     occ_a1 = rdm1_a[ii,ii]
                     occ_a2 = rdm1_a[jj,jj]
                     odiag  = rdm2_aa[ii,ii,jj,jj]
-                    if ii < norb - nel_a:
+                    if ii > nel_a:
                         typi = "virt"
                     else:
                         typi = "occu"
-                    if jj < norb - nel_a:
+                    if jj > nel_a:
                         typj = "virt"
                     else:
                         typj = "occu"
@@ -136,11 +148,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                 occ_a = rdm1_a[ii,ii]
                 occ_b = rdm1_b[jj,jj]
                 diag  = rdm2_ab[ii,jj,ii,jj]
-                if ii < norb - nel_a:
+                if ii > nel_a:
                     typi = "virt"
                 else:
                     typi = "occu"
-                if jj < norb - nel_b:
+                if jj > nel_b:
                     typj = "virt"
                 else:
                     typj = "occu"
@@ -153,11 +165,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                     occ_a = rdm1_a[ii,ii]
                     occ_b = rdm1_b[jj,jj]
                     odiag = rdm2_ab[ii,ii,jj,jj]
-                    if ii < norb - nel_a:
+                    if ii > nel_a:
                         typi = "virt"
                     else:
                         typi = "occu"
-                    if jj < norb - nel_b:
+                    if jj > nel_b:
                         typj = "virt"
                     else:
                         typj = "occu"
@@ -169,11 +181,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                 occ_b1 = rdm1_b[ii,ii]
                 occ_b2 = rdm1_b[jj,jj]
                 diag   = rdm2_bb[ii,jj,ii,jj]
-                if ii < norb - nel_b:
+                if ii > nel_b:
                     typi = "virt"
                 else:
                     typi = "occu"
-                if jj < norb - nel_b:
+                if jj > nel_b:
                     typj = "virt"
                 else:
                     typj = "occu"
@@ -186,11 +198,11 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                     occ_b1 = rdm1_b[ii,ii]
                     occ_b2 = rdm1_b[jj,jj]
                     odiag  = rdm2_bb[ii,ii,jj,jj]
-                    if ii < norb - nel_b:
+                    if ii > nel_b:
                         typi = "virt"
                     else:
                         typi = "occu"
-                    if jj < norb - nel_b:
+                    if jj > nel_b:
                         typj = "virt"
                     else:
                         typj = "occu"
