@@ -126,7 +126,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
         nterms_bb = 0
     else:
         nterms_bb = math.comb(norb,nel_a)*math.comb(norb-2,nel_b-2)
-    filename = f"{name}_aa_d_{nterms_aa}.dat"
+    filename = f"r_{name}_aa_d_{nterms_aa}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -142,7 +142,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                 else:
                     typj = "occu"
                 fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
-    filename = f"{name}_aa_o_{nterms_aa}.dat"
+    filename = f"r_{name}_aa_o_{nterms_aa}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -159,7 +159,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                     else:
                         typj = "occu"
                     fp.write(f"{occ_a1:.16f} {occ_a2:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
-    filename = f"{name}_ab_d_{nterms_ab}.dat"
+    filename = f"r_{name}_ab_d_{nterms_ab}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -175,7 +175,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                 else:
                     typj = "occu"
                 fp.write(f"{occ_a:.16f} {occ_b:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
-    filename = f"{name}_ab_o_{nterms_ab}.dat"
+    filename = f"r_{name}_ab_o_{nterms_ab}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -192,7 +192,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                     else:
                         typj = "occu"
                     fp.write(f"{occ_a:.16f} {occ_b:.16f} {odiag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
-    filename = f"{name}_bb_d_{nterms_bb}.dat"
+    filename = f"r_{name}_bb_d_{nterms_bb}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
@@ -208,7 +208,7 @@ def extract_elements(name,mode,rdm1_a,rdm1_b,rdm2_aa,rdm2_ab,rdm2_bb,mol,xyznm):
                 else:
                     typj = "occu"
                 fp.write(f"{occ_b1:.16f} {occ_b2:.16f} {diag:20.16f} # {ii:4d} {jj:4d} {typi} {typj} {xyznm}\n")
-    filename = f"{name}_bb_o_{nterms_bb}.dat"
+    filename = f"r_{name}_bb_o_{nterms_bb}.dat"
     with open(filename,mode) as fp:
         for ii in range(norb):
             for jj in range(norb):
