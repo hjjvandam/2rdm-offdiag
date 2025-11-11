@@ -35,13 +35,18 @@ def calc_wfn(mol):
     """
     Calculate the Full-CI wavefunction in natural orbital basis
     """
-    rhf_wf = scf.RHF(mol).run(max_cycle=200)
+    mf = scf.RHF(mol)
+    mf.init_guess = "atom"
+    #rhf_wf = mf.newton(max_cycle=200)
+    #mf = scf.addons.frac_occ(mf)
+    mf = mf.newton()
+    rhf_wf = mf.run(max_cycle=200)
     fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0,ss=0)
     norb = mol.nao
     nelec = mol.nelec
-    (E_fci,C_fci) = fci_wf.kernel()
-    print(f"converged FCI energy in SCF orbital basis = {E_fci}")
-    (rdm1_a,rdm1_b) = fci_wf.make_rdm1s(C_fci,norb,nelec)
+    (E_fci_scf,C_fci) = fci_wf.kernel(nroots=10)
+    print(f"converged FCI energy in SCF orbital basis = {E_fci_scf[0]}")
+    (rdm1_a,rdm1_b) = fci_wf.make_rdm1s(C_fci[0],norb,nelec)
     #
     (occ,orbs) = np.linalg.eigh(rdm1_a)
     #DEBUG
@@ -61,8 +66,21 @@ def calc_wfn(mol):
     #uhf_wf.mo_coeff[1] = np.array(uhf_wf.mo_coeff[1])
     #
     fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0,ss=0)
-    (E_fci,C_fci) = fci_wf.kernel()
-    print(f"converged FCI energy in nat orbital basis = {E_fci}")
+    (E_fci_nat,C_fci) = fci_wf.kernel(nroots=10)
+    print(f"converged FCI energy in nat orbital basis = {E_fci_nat[0]}")
+    if abs(E_fci_nat[0]-E_fci_scf[0]) > 1.0e-5:
+        # We have found a different state now
+        (rdm1_a,rdm1_b) = fci_wf.make_rdm1s(C_fci[0],norb,nelec)
+        (occ,orbs) = np.linalg.eigh(rdm1_a)
+        idx = occ.argsort()[::-1]
+        occ = occ[idx]
+        orbs = orbs[:,idx]
+        rhf_wf.mo_coeff = np.matmul(rhf_wf.mo_coeff,orbs)
+        fci_wf = fci.addons.fix_spin_(fci.FCI(rhf_wf),shift=1.0,ss=0)
+        (E_fci_nat2,C_fci) = fci_wf.kernel(nroots=10)
+        print(f"converged FCI energy in nat orbital basis = {E_fci_nat2[0]}")
+        if abs(E_fci_nat2[0]-E_fci_nat[0]) > 1.0e-5:
+            print("WARNING still a different state")
     return (fci_wf,C_fci)
 
 def calc_rdms(fci_wf,C_fci,mol):
@@ -74,7 +92,7 @@ def calc_rdms(fci_wf,C_fci,mol):
     """
     norb = mol.nao
     nelec = mol.nelec
-    ((rdm1_a,rdm1_b),(rdm2_aa,rdm2_ab,rdm2_bb)) = fci_wf.make_rdm12s(C_fci,norb,nelec)
+    ((rdm1_a,rdm1_b),(rdm2_aa,rdm2_ab,rdm2_bb)) = fci_wf.make_rdm12s(C_fci[0],norb,nelec)
     #DEBUG
     #print("HVD: rdms")
     #print(rdm1_a)
