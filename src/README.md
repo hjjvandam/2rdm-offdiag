@@ -26,3 +26,14 @@ and a number of open shell orbitals as inputs. The default values for the
 charge and the number of open shell orbitals are both 0 unless the number of
 electrons for the specified charge is odd. In that case the default number of
 open shells will be 1.
+
+It turns out that the results are rather different using Unrestricted Full-CI
+versus Restricted Full-CI. The unrestricted version can generate spin broken
+solutions, with rather different occupation numbers. Hence I have created
+two different versions of the script. One that performs Restricted Full-CI
+calculations where the wavefunction is restricted to singlet states. Another
+one that performs Unrestricted Full-CI calculations without spin restrictions.
+Note also that when repeating the Full-CI calculation in the natural orbital
+basis you have to make sure that the code finds the same state again. I found
+that the Full-CI code has to calculate multiple states to have a good chance of
+finding the same state again.
