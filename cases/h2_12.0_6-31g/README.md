@@ -27,7 +27,7 @@ For the unrestricted alpha-beta electron correlation we have for the diagonal el
   numbers are always positive. So the sum over $\sqrt{d^a d^b}$ equals
   the sum over $d^a$ as well as the sum over $d^b$, either of which are 1.
 For the restricted diagonal elements we see very similar results except
-that for $d^a = d^b = 1/2$ there are a number of points below the
+that for $d^a = d^b = \textonehalf$ there are a number of points below the
 Lowdin-Shull line.
 
 For the unrestricted and restricted off-diagonal elements respectively
@@ -42,5 +42,5 @@ For the off-diagonal elements we have:
 - for the unrestricted case we have both positive and negative
   off-diagonal elements, whereas for the restricted case we have
   only negative elements.
-- in addition for the restricted elements we have at $d^a = d^b = 1/2$
+- in addition for the restricted elements we have at $d^a = d^b = \testonehalf$
   a number of points above the line.
