@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import math
 """
 Due to the shape of the correlation effects we refer to this as the Eye.
