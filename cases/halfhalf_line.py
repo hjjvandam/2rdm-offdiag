@@ -33,7 +33,10 @@ def classify_hh(input_file,hh_file):
             jj = int(words[5])
             if abs(occ_a-0.5) < 1.0e-3:
                 if abs(occ_b-0.5) < 1.0e-3:
-                    if abs(occ_ab-0.5) > 1.0e-2 and abs(occ_ab-0.25) > 1.0e-2 and occ_ab > 1.0e-2:
+                    if (abs(occ_ab-0.50) > 1.0e-2 and
+                        abs(occ_ab-0.25) > 1.0e-2 and
+                        abs(occ_ab     ) > 1.0e-2 and
+                        abs(occ_ab+0.50) > 1.0e-2):
                         fp_hh.write(line)
 
 if __name__ == "__main__":
