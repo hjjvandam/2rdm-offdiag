@@ -33,7 +33,9 @@ def eye(x,y):
     """
     The correlation function.
     """
-    res = sqrt(sqrt(x*(1.0-x)*y*(1.0-y)))
+    xx = min(1.0,max(0.0,x))
+    yy = min(1.0,max(0.0,y))
+    res = sqrt(sqrt(xx*(1.0-xx)*yy*(1.0-yy)))
     return res
 
 def classify_eye(input_file,ep_file,nep_file,en_file,nen_file):
