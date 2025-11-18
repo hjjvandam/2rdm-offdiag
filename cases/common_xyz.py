@@ -30,7 +30,7 @@ def find_common(file1,file2,fileo):
     with open(fileo,"w") as fp:
         for item in olist:
             # This format ensures we can further process the data
-            fp.write(f"x.xxx x.xxx x.xxx # x x xxxx xxxx {item}")
+            fp.write(f"x.xxx x.xxx x.xxx # x x xxxx xxxx {item}\n")
 
 if __name__ == "__main__":
     args = commandline()
