@@ -42,14 +42,14 @@ For the off-diagonal elements we have:
 - for the unrestricted case we have both positive and negative
   off-diagonal elements, whereas for the restricted case we have
   only negative elements.
-- in addition for the restricted elements we have at $d^a = d^b = \testonehalf$
+- in addition for the restricted elements we have at $d^a = d^b = \textonehalf$
   a number of points above the line.
 
 The negative and positive arches for the unrestricted off-diagonal elements are
 easily explained, as in the unrestricted case the alpha and beta natural orbitals
 can have different signs. That leads to different signs of 2RDM elements.
 
-Further observations can be made for the restricted elements at $d^a = d^b = \testonehalf$.
+Further observations can be made for the restricted elements at $d^a = d^b = \textonehalf$.
 The corresponding plots are
 
 ![restricted half-half diagonal elements](./r_h2_12.0-6-31g_ab_d_1_hh.png)
