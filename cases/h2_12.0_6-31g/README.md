@@ -44,3 +44,24 @@ For the off-diagonal elements we have:
   only negative elements.
 - in addition for the restricted elements we have at $d^a = d^b = \testonehalf$
   a number of points above the line.
+
+The negative and positive arches for the unrestricted off-diagonal elements are
+easily explained, as in the unrestricted case the alpha and beta natural orbitals
+can have different signs. That leads to different signs of 2RDM elements.
+
+Further observations can be made for the restricted elements at $d^a = d^b = \testonehalf$.
+The corresponding plots are
+
+![restricted half-half diagonal elements](./r_h2_12.0-6-31g_ab_d_1_hh.png)
+![restricted half-half off-diagonal elements](./r_h2_12.0-6-31g_ab_o_1_nen.png)
+
+The green columns constitute elements that don't exists in the unrestricted case.
+In addition they are not on any of the obvious lines. These elements could cause problems
+modeling N-representable density matrices. Nevertheless we find that these elements
+partially cancel each other. For every molecular structure in the top data set there
+are corresponding elements in the bottom data set. In the top data set there are four
+values per structure, two of which appear with the opposite sign in the bottom data
+set. So these terms cancel. The other two terms are not canceled. In addition the
+bottom data set contains contributions for structures that have no counter part in the
+top data set. Therefore if we ignore these points in the restricted model we may obtain
+energies that are both too high or too low dependent on the input geometry.
