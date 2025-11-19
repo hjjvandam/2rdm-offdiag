@@ -103,5 +103,8 @@ to the highest densities
 
 ![restricted alpha-beta off-diagonal 3.0](./r_h6_3.0-6-31g_ab_o_3025.png)
 
+Again we see that at the lowest densities the data points fall on clear
+lines, but those lines get blurred significantly as the density increases.
+
 ## H8 cases
 
