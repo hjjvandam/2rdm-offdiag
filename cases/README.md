@@ -71,7 +71,37 @@ to the highest density
 
 ![restricted alpha-beta off-diagonal 3.0](./r_h4_3.0-6-31g_ab_o_49.png)
 
+As is shown above, for the lowest densities the data points essentially fall
+onto clear lines. As the density increases these lines become increasingly
+fuzzy.
+
 ## H6 cases
+
+With H6 we have six electrons, four of those have to be integrated to obtain
+the 2RDM elements. In order of increasing densities we get, for the lowest
+densities
+
+![restricted alpha-alpha diagonal 12.0](./r_h6_12.0-6-31g_aa_d_2200.png)
+
+![restricted alpha-beta diagonal 12.0](./r_h6_12.0-6-31g_ab_d_3025.png)
+
+![restricted alpha-beta off-diagonal 12.0](./r_h6_12.0-6-31g_ab_o_3025.png)
+
+to the medium densities
+
+![restricted alpha-alpha diagonal 6.0](./r_h6_6.0-6-31g_aa_d_2200.png)
+
+![restricted alpha-beta diagonal 6.0](./r_h6_6.0-6-31g_ab_d_3025.png)
+
+![restricted alpha-beta off-diagonal 6.0](./r_h6_6.0-6-31g_ab_o_3025.png)
+
+to the highest densities
+
+![restricted alpha-alpha diagonal 3.0](./r_h6_3.0-6-31g_aa_d_2200.png)
+
+![restricted alpha-beta diagonal 3.0](./r_h6_3.0-6-31g_ab_d_3025.png)
+
+![restricted alpha-beta off-diagonal 3.0](./r_h6_3.0-6-31g_ab_o_3025.png)
 
 ## H8 cases
 
