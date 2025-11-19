@@ -51,25 +51,25 @@ density
 
 ![restricted alpha-alpha diagonal 12.0](./r_h4_12.0-6-31g_aa_d_28.png)
 
-![restricted alpha-beta diagonal 12.0](./r_h4_12.0-6-31g_ab_d_28.png)
+![restricted alpha-beta diagonal 12.0](./r_h4_12.0-6-31g_ab_d_49.png)
 
-![restricted alpha-beta off-diagonal 12.0](./r_h4_12.0-6-31g_ab_o_28.png)
+![restricted alpha-beta off-diagonal 12.0](./r_h4_12.0-6-31g_ab_o_49.png)
 
 to the medium density
 
 ![restricted alpha-alpha diagonal 6.0](./r_h4_6.0-6-31g_aa_d_28.png)
 
-![restricted alpha-beta diagonal 6.0](./r_h4_6.0-6-31g_ab_d_28.png)
+![restricted alpha-beta diagonal 6.0](./r_h4_6.0-6-31g_ab_d_49.png)
 
-![restricted alpha-beta off-diagonal 6.0](./r_h4_6.0-6-31g_ab_o_28.png)
+![restricted alpha-beta off-diagonal 6.0](./r_h4_6.0-6-31g_ab_o_49.png)
 
 to the highest density
 
 ![restricted alpha-alpha diagonal 3.0](./r_h4_3.0-6-31g_aa_d_28.png)
 
-![restricted alpha-beta diagonal 3.0](./r_h4_3.0-6-31g_ab_d_28.png)
+![restricted alpha-beta diagonal 3.0](./r_h4_3.0-6-31g_ab_d_49.png)
 
-![restricted alpha-beta off-diagonal 3.0](./r_h4_3.0-6-31g_ab_o_28.png)
+![restricted alpha-beta off-diagonal 3.0](./r_h4_3.0-6-31g_ab_o_49.png)
 
 ## H6 cases
 
