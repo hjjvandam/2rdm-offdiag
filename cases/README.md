@@ -52,3 +52,5 @@ For the alpha-alpha diagonal elements we have in order of increasing density
 
 ![restricted alpha-alpha diagonal 6.0](./r_h4_6.0-6-31g_aa_d_28.png)
 
+![restricted alpha-alpha diagonal 3.0](./r_h4_3.0-6-31g_aa_d_28.png)
+
