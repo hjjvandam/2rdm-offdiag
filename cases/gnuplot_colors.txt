@@ -1,0 +1,23 @@
+GNUplot has default colors for the first three line types.
+For a consistent representation I want to be able to select these colors
+as needed. The first three colors are given below:
+
+1 rgb "#9400d3"
+2 rgb "#009e73"
+3 rgb "#56b4e9"
+
+More about the RGB colors can be found at:
+https://stackoverflow.com/questions/67136226/gnuplot-default-line-color-rgb-values
+
+
+Note that GNUplot also allows for transparency although GNUplot does not seem to
+have a notion of what is "in front of" something else. With splot the "spatial"
+ordering is that the last graph is the one most to the front, the first one the one
+most to the back.
+
+splot "h4_12.0_6-31g/r_h4_12.0-6-31g_aa_d_28.dat" lc rgb "#009400d3",
+      "h4_6.0_6-31g/r_h4_6.0-6-31g_aa_d_28.dat" lc rgb "#a0009e73",
+      "h4_3.0_6-31g/r_h4_3.0-6-31g_aa_d_28.dat" lc rgb "#f056b4e9"
+
+More about encoding the transparency in the RGB colors can be found at:
+https://stackoverflow.com/questions/12325410/gnuplot-line-opacity-transparency
