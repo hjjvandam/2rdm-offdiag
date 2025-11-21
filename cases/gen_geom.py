@@ -160,13 +160,16 @@ inc = 2
 rmax = 3.0
 write_geometries("h",rmax,number,structs,inc)
 #
-rmax = 4.0
-write_geometries("h",rmax,number,structs,inc)
+#rmax = 4.0
+#write_geometries("h",rmax,number,structs,inc)
 #
-rmax = 5.0
-write_geometries("h",rmax,number,structs,inc)
+#rmax = 5.0
+#write_geometries("h",rmax,number,structs,inc)
 #
 rmax = 6.0
+write_geometries("h",rmax,number,structs,inc)
+#
+rmax = 9.0
 write_geometries("h",rmax,number,structs,inc)
 #
 rmax = 12.0
