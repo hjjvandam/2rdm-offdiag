@@ -51,12 +51,12 @@ def classify_eye(input_file,ep_file,nep_file,en_file,nen_file):
             ii = int(words[4])
             jj = int(words[5])
             if abs(occ_a-(1.0-occ_b)) < 1.0e-3: # occ_a + occ_b == 1
-                if occ_ab > 1.0e-4:
+                if occ_ab > 1.0e-5:
                     if abs(eye(occ_a,occ_b)-occ_ab) < 5.0e-3*(eye(occ_a,occ_b)+occ_ab):
                         fp_ep.write(line)
                     else:
                         fp_nep.write(line)
-                elif occ_ab < 1.0e-4:
+                elif occ_ab < -1.0e-5:
                     if abs(eye(occ_a,occ_b)+occ_ab) < 5.0e-3*(eye(occ_a,occ_b)-occ_ab):
                         fp_en.write(line)
                     else:
