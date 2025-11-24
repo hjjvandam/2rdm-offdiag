@@ -33,7 +33,7 @@ def compute_sums(filein):
                 rdm2p += rdm2
             else:
                 rdm2m += rdm2
-    print(f"occa {occa}   occb {occb}   rdm2 {rdm2p} {rdm2m} {rdm2p-rdm2m}")
+    print(f"lines {nlines:6d}   occa {occa:10.3f}   occb {occb:10.3f}   rdm2 {rdm2p:10.3f} {rdm2m:10.3f} {rdm2p-rdm2m:10.3f}")
 
 if __name__ == "__main__":
     args = commandline()
