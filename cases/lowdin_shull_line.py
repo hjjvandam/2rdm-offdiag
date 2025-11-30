@@ -45,10 +45,13 @@ def classify_ls(input_file,ls_file,nls_file):
             occ_ab = float(words[2])
             ii = int(words[4])
             jj = int(words[5])
-            if occ_a > 1.0e-5 and occ_b > 1.0e-5 and occ_ab > 1.0e-5:
+            if occ_a > 1.0e-5 and occ_b > 1.0e-5:
                 if abs(occ_a-occ_b) < 0.5e-3*(occ_a+occ_b):
                     if abs(sqrt(occ_a*occ_b)-occ_ab) < 0.5e-2*(sqrt(occ_a*occ_b)+occ_ab):
-                        fp_ls.write(line)
+                        if ii == jj:
+                            fp_ls.write(line)
+                        else:
+                            fp_nls.write(line)
                     else:
                         fp_nls.write(line)
             #else:
