@@ -35,8 +35,13 @@ def classify_hh(input_file,hh_file):
                 if abs(occ_b-0.5) < 1.0e-3:
                     if (abs(occ_ab-0.50) > 1.0e-3 and
                         abs(occ_ab-0.25) > 1.0e-3 and
-                        abs(occ_ab     ) > 1.0e-3 and
                         abs(occ_ab+0.50) > 1.0e-3):
+                        fp_hh.write(line)
+                    elif abs(occ_ab-0.50) <= 1.0e-3 and ii != jj:
+                        fp_hh.write(line)
+                    elif abs(occ_ab-0.25) <= 1.0e-3 and ii == jj:
+                        fp_hh.write(line)
+                    elif abs(occ_ab+0.50) <= 1.0e-3 and ii == jj:
                         fp_hh.write(line)
 
 if __name__ == "__main__":
