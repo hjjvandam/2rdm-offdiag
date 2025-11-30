@@ -2,7 +2,7 @@
 """
 Extract data on the Straight-One line
 
-The straight-one line is the line where $d^b = 1$ and $0 \le d^a \le 1$ and
+The straight-one line is the line where $d^b = 1$ and $0 \\le d^a \\le 1$ and
 $d_{ij} = d^a$.
 
 This script scans a data set and outputs all the points that are on the
@@ -34,7 +34,11 @@ def classify_so(input_file,so_file):
             jj = int(words[5])
             if abs(occ_b-1.0) < 1.0e-3:
                 if abs(occ_a-occ_ab) < 1.0e-3:
-                    fp_so.write(line)
+                    if abs(occ_a-occ_b) < 1.0e-3:
+                        if jj < ii:
+                            fp_so.write(line)
+                    else:
+                        fp_so.write(line)
 
 if __name__ == "__main__":
     args = commandline()
