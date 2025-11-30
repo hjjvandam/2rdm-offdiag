@@ -2,7 +2,7 @@
 """
 Extract data on the Straight-Half line
 
-The straight-half line is the line where $d^b = 1/2$ and $0 \le d^a \le 1$ and
+The straight-half line is the line where $d^b = 1/2$ and $0 \\le d^a \\le 1$ and
 $d_{ij} = d^a d^b$.
 
 This script scans a data set and outputs all the points that are on the
@@ -34,7 +34,11 @@ def classify_sh(input_file,sh_file):
             jj = int(words[5])
             if abs(occ_b-0.5) < 1.0e-3:
                 if abs(occ_a*occ_b-occ_ab) < 1.0e-3:
-                    fp_sh.write(line)
+                    if abs(occ_a-occ_b) < 1.0e-3:
+                        if jj < ii:
+                            fp_sh.write(line)
+                    else:
+                        fp_sh.write(line)
 
 if __name__ == "__main__":
     args = commandline()
