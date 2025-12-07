@@ -13,6 +13,7 @@
 ../halfstraight_line.py r_h4_12.0-6-31g_ab_d_49.dat
 ../straighthalf_line.py r_h4_12.0-6-31g_ab_d_49.dat
 ../halfhalf_line.py     r_h4_12.0-6-31g_ab_d_49.dat
+../eye_line.py          r_h4_12.0-6-31g_ab_o_49.dat
 #
 # Open shell a-a
 #
@@ -28,3 +29,4 @@
 ../straighthalf_line.py u_h4_12.0-6-31g_ab_d_49.dat
 ../onestraight_line.py  u_h4_12.0-6-31g_ab_d_49.dat
 ../straightone_line.py  u_h4_12.0-6-31g_ab_d_49.dat
+../eye_line.py          u_h4_12.0-6-31g_ab_o_49.dat
