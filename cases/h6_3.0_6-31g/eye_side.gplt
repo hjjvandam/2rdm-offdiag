@@ -2,8 +2,6 @@ set view 90, 45
 set terminal png
 set output "r_h6_3.0-6-31g_ab_o_3025_eye_side.png"
 splot "r_h6_3.0-6-31g_ab_o_3025.dat" lc rgb "#56b4e9"
-unset terminal
-set terminal png
 set output "u_h6_3.0-6-31g_ab_o_3025_eye_side.png"
 splot "u_h6_3.0-6-31g_ab_o_3025.dat" lc rgb "#56b4e9"
 quit
