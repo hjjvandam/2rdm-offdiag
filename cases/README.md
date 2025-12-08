@@ -106,5 +106,19 @@ to the highest densities
 Again we see that at the lowest densities the data points fall on clear
 lines, but those lines get blurred significantly as the density increases.
 
+One feature that seems relevant is that the correlation happens in a very
+narrow plane. Looking at the eye from the side we have for the lowest
+densities
+
+![restricted eye side 12.0](./h6_12.0_6-31g/r_h6_12.0-6-31g_ab_o_3025_eye_side.png)
+
+![unrestricted eye side 12.0](./h6_12.0_6-31g/u_h6_12.0-6-31g_ab_o_3025_eye_side.png)
+
+For the highest density
+
+![restricted eye side 3.0](./h6_3.0_6-31g/r_h6_3.0-6-31g_ab_o_3025_eye_side.png)
+
+![unrestricted eye side 3.0](./h6_3.0_6-31g/u_h6_3.0-6-31g_ab_o_3025_eye_side.png)
+
 ## H8 cases
 
