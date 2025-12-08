@@ -1,0 +1,5 @@
+height(ra,rb)=sqrt(sqrt(ra*(1-ra)*rb*(1-rb)))
+diff(ra,rb)=ra+rb-1 # ra-(1-rb)
+width(ra,rb)=exp(-alpha*diff(ra,rb)**2)
+corr(ra,rb)=-width(ra,rb)*height(ra,rb)
+alpha=250.0
