@@ -2,26 +2,19 @@
 """
 For a directory with xyz files generate a webpage that displays all structures
 
-This script generates a web-page that displays molecules using JSMol. There is
-problem in that when I try to have multiple JSMol instances on a single page
-all instances but maybe the first tend to hang. Maybe this is a Java Script
-catastrophy.
+Here we do this as a two stage process:
+1. Generate PNG images for all XYZ files
+2. Generate a web-page showing all images
 
-Also note that for JSMol you need to use a web-server, but you can just use
-the one that comes with python:
-
-    python -m http.server
-
-or
-
-    python -m http.server <port-number>
-
-The browser can access this server at localhost:<port-number>.
+We use JMol to generate the images. Note that occasionally JMol will hang
+after writing the image. This is why the timeout is needed. Afterwards the
+hanging JMol-s still need to be cleaned up.
 """
 
 import argparse
 import glob
 import os
+import subprocess
 
 def commandline():
     parser = argparse.ArgumentParser(
@@ -42,6 +35,29 @@ def find_xyz_files(path):
     files.sort()
     return files
 
+def filename_xyz2png(filename_xyz):
+    """
+    Replace the XYZ extension with PNG
+    """
+    indx = filename_xyz.index(".xyz")
+    filename_png = filename_xyz[:indx]+".png"
+    return filename_png
+
+def generate_png(files):
+    """
+    Generate a PNG image for every XYZ file
+    """
+    jmol = "/Users/hubertusvandam/Documents/jmol-16.3.37/jmol.sh"
+    for file_xyz in files:
+        file_png = filename_xyz2png(file_xyz)
+        with open("jmol_script.spt","w") as fp:
+            fp.write(f"load \"{file_xyz}\"")
+        command = [ jmol, "-ions", "jmol_script.spt", "-w", f"PNG:{file_png}" ]
+        try:
+            subprocess.run(command,timeout=5)
+        except subprocess.TimeoutExpired:
+            print("Time out expired but I don't care")
+
 def write_html(files_xyz):
     """
     Write an html file visualizing every xyz file with jsmol
@@ -50,26 +66,24 @@ def write_html(files_xyz):
         fp_html.write("<!DOCTYPE HTML>\n")
         fp_html.write("<HTML>\n")
         fp_html.write("<HEAD>\n")
-        fp_html.write("  <SCRIPT src=\"../jmol/jsmol/JSmol.min.js\"></script>\n")
-        fp_html.write("  <SCRIPT src=\"../jmol/jsmol/js/Jmol2.js\"></script>\n")
-        fp_html.write("  <SCRIPT> jmolInitialize(\"../jmol/jsmol\");</script>\n")
         fp_html.write("</HEAD>\n")
         fp_html.write("<BODY>\n")
         fp_html.write("<TABLE>\n")
         for struct in files_xyz:
-            write_row(fp_html,struct)
+            file_png = filename_xyz2png(struct)
+            write_row(fp_html,file_png)
         fp_html.write("</TABLE>\n")
         fp_html.write("</BODY>\n")
         fp_html.write("</HTML>\n")
 
-def write_row(fp,file_xyz):
+def write_row(fp,file_png):
     """
     Add a single row to the table showing one structure
     """
     fp.write("<TR><TD>")
-    fp.write(file_xyz)
+    fp.write(file_png)
     fp.write("</TD><TD>")
-    line="<script>jmolApplet(200,\"load "+file_xyz+"\",\"0\")</script>"
+    line=f"<img src=\"{file_png}\" alt=\"{file_png}\">"
     fp.write(line)
     fp.write("</TD></TR>\n")
 
@@ -77,4 +91,5 @@ if __name__ == "__main__":
     args = commandline()
     path = args.path_xyz
     files = find_xyz_files(path)
+    generate_png(files)
     write_html(files)
