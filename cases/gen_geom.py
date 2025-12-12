@@ -119,7 +119,7 @@ def write_geometries(name,rmax,number,positions,inc):
                 fp.write(f"{ii}\n\n")
                 for iat in range(ii):
                     (xx,yy,zz) = pos[iat]
-                    fp.write(f"h {rmax*xx:14.6f} {rmax*yy:14.6f} {rmax*zz:14.6f}\n")
+                    fp.write(f"H {rmax*xx:14.6f} {rmax*yy:14.6f} {rmax*zz:14.6f}\n")
             ii += inc
 
 def generate_structures_with_rmax(rmax,number,natoms):
@@ -157,20 +157,23 @@ else:
         json.dump(structs,fp)
 #sys.exit(10)
 inc = 2
+rmax = 1.5
+write_geometries("H",rmax,number,structs,inc)
+#
 rmax = 3.0
-write_geometries("h",rmax,number,structs,inc)
+write_geometries("H",rmax,number,structs,inc)
 #
 #rmax = 4.0
-#write_geometries("h",rmax,number,structs,inc)
+#write_geometries("H",rmax,number,structs,inc)
 #
 #rmax = 5.0
-#write_geometries("h",rmax,number,structs,inc)
+#write_geometries("H",rmax,number,structs,inc)
 #
 rmax = 6.0
-write_geometries("h",rmax,number,structs,inc)
+write_geometries("H",rmax,number,structs,inc)
 #
 rmax = 9.0
-write_geometries("h",rmax,number,structs,inc)
+write_geometries("H",rmax,number,structs,inc)
 #
 rmax = 12.0
-write_geometries("h",rmax,number,structs,inc)
+write_geometries("H",rmax,number,structs,inc)
